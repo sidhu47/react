@@ -4,7 +4,10 @@ const parent = React.createElement(
      React.createElement
      ("div",
       {id: "child"},
-       [React.createElement("h1", {}, "H1 tag"), React.createElement("h2", {}, "H2 tag")])
+       [
+        React.createElement("h1", {}, "H1 tag"), 
+        React.createElement("h2", {}, "H2 tag")
+        ])
        );
 
 
