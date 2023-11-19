@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/sidhu47/react/issues"
   },
-  "homepage": "https://github.com/sidhu47/react#readme"
+  "homepage": "https://github.com/sidhu47/react#readme",
+  "devDependencies": {
+    "parcel": "^2.10.3"
+  }
 }
