@@ -81,6 +81,9 @@ A react hook is a normal js utility functions written inside react which are rea
 > [!IMPORTANT]
 > This will keep the UI layer in sync with the data layer.
 
+> [!IMPORTANT]
+> Always create `useState()` variable inside the component and try to declare them at the top of the component as a good practice. Never declare `useState()` inside if-else blocks or any conditions or any loops as it will cause inconsistencies.
+
 ```
 const [variableName, functionUsedToUpdateTheContentsOfTheVariable] = useState([]); 
 // [] is the default value that you want to pass to the state variable.
@@ -88,11 +91,75 @@ const [variableName, functionUsedToUpdateTheContentsOfTheVariable] = useState([]
 //UPDATING THE STATE DATA
 functionUsedToUpdateTheContentsOfTheVariable(newData);
 ```
-- `useEffect()`
+- `useEffect()` - Just a normal JS function which has two arguments. First argument is an arrow function and the second argument is the dependency array. This will be called everytime after a component renders. Once the render is done the call back function in the first argument will be invoked. Dependency array changes the behavior of the render.  If there is a
+
+> [!NOTE]
+> Below are different usecases of using dependency array.
+* If no dependency array is present useEffect() is called on every render.
+* If empty dependency array is present useEffect() is called on initial render(just once).
+* If some dependency array is present useEffect() is called when the dependency changes. 
+
+```
+import RestaurantCard from "./RestaurantCard";
+import resList from "../utils/mockData";
+import { useState, useEffect } from "react";
+
+const Body = () => {
+    const [listOfRestaurants, setListOfRestaurants] = useState(resList);
+
+    //THIS will be called after the render is done. Executed last
+    useEffect(() => {}, []);
+
+    //THIS is executed first
+    return (
+        <div className="body">
+            <div className="filter">
+                <button className="filter-btn" onClick={() => {
+                    setListOfRestaurants(
+                        listOfRestaurants.filter(
+                        (restaurant) => restaurant.info.avgRating > 4
+                    ));
+                }}>Top Rated Restaurants</button>
+            </div>
+            
+            <div className="res-container">
+            {
+              listOfRestaurants.map(restaurant => <RestaurantCard key={restaurant.info.id} resData={restaurant}/>)
+            }
+            </div>
+        </div>
+    );
+}
+
+export default Body;
+```
+> [!TIP]
+> In React when ever you see an import start with `use` (Ex: useRouteError()) its a hook. As it is a common practice to name the hooks in this convention.
+
 
 **Reconciliation Algorithm ([React Fiber](https://github.com/acdlite/react-fiber-architecture)) :** <br>
 Whenever there is a change in state variable react uses something called `Virtual DOM` which is a representation of an actual DOM. Virtual DOM is nothing but react elements i.e JS object. It uses Diff Algorithm which finds the difference between older and newer virtual DOM's and updates the DOM on every render cycle. Check video at `01:50:00` in episode 5.
 
+> [!IMPORTANT]
+> Whenever there's a change in state variable, react triggers a reconciliation cycle (re-renders the component)
+
+**Conditional Rendering:** Rendering based on a condition is called conditional rendering.
+
+
+# ROUTER
+- React router dom
+- Children routes
+- `createBrowserRouter`, `RouterProvider`, `Outlet`
+
+**Two types of routing in web apps**
+- Client Side Routing
+- Server Side Routing
+
+> [!IMPORTANT]
+> Never use href in `<a></a>` tag to route because the whole page will be refreshed. Use `{Link} from "react-router-dom` instead which is provided by react.
 
 # Read ABOUT
 - CONFIG DRIVEN UI (Data drives the UI, data comes from configs and UI components are reused to render the config data recieved from the API)
+
+# Revise episodes
+- Episode 5 (HOOKS), Episode 6
